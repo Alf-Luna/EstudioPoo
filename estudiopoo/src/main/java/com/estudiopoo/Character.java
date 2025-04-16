@@ -1,12 +1,13 @@
 package com.estudiopoo;
 
-public class Character {
+public class Character extends LivingEntity{
     private Inventory inventory;
     private int health;
     private String name;
     private Item equippedItem;
     
-    public Character(Inventory inventory, int health, String name) {
+    public Character(int maxHealth, Inventory inventory, int health, String name) {
+        super(maxHealth);
         this.inventory = inventory;
         this.health = health;
         this.name = name;
@@ -16,6 +17,7 @@ public class Character {
         for(Item item : inventory.getItems()){
             if (item.getId().equals(id)){
                 equippedItem = item;
+                System.out.println("equipped " + item.getName());
                 return;
             }
         }
@@ -64,5 +66,17 @@ public class Character {
 
     public void setEquippedItem(Item equippedItem) {
         this.equippedItem = equippedItem;
+    }
+
+    @Override
+    public void ReceiveDamage(int damage) {
+        health -= damage;
+        System.out.println("Received " + damage + ". Current healt: " + health);
+    }
+
+    @Override
+    public void Attack(LivingEntity enemEntity) {
+        enemEntity.ReceiveDamage(10);
+        System.out.println(name + " attacked for " + 10 + "damage");
     }
 }
